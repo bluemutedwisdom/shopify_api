@@ -14,6 +14,12 @@ class OrderTest < Test::Unit::TestCase
     assert_equal 450789469, order.id
   end
 
+  test "get should get an order with custom properties" do
+    fake 'orders/450789469', :method => :get, :status => 200, :body => load_fixture('order_with_properties')
+    order = ShopifyAPI::Order.find(450789469)
+    assert_equal 450789469, order.id
+  end
+
   test "get all should get all orders" do
     fake 'orders', :method => :get, :status => 200, :body => load_fixture('orders')
     order = ShopifyAPI::Order.all
@@ -44,4 +50,3 @@ class OrderTest < Test::Unit::TestCase
     assert_request_body({'email' => false, 'restock' => true}.to_json)
   end
 end
-
